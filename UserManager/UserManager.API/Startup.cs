@@ -6,6 +6,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
+using System;
+using System.IO;
+using System.Reflection;
 using UserManager.API.Data;
 using UserManager.API.Models.Entities;
 using UserManager.API.Repositories;
@@ -44,6 +47,9 @@ namespace UserManager.API
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+
+                var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
             });
 
             services.AddControllers().AddNewtonsoftJson(x =>

@@ -12,6 +12,7 @@ namespace UserManager.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Produces("application/json")]
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
@@ -23,6 +24,12 @@ namespace UserManager.API.Controllers
             _logger = logger;
         }
 
+        /// <summary>
+        /// Get All Users.
+        /// </summary>
+        /// <returns>The list of all Users.</returns>
+        /// <response code="200">Returns the list of all Users.</response>
+        /// <response code="500">Internal Server Error</response>   
         [HttpGet]
         [Route("GetAllUsers")]
         [ProducesResponseType(typeof(List<UserDTO>), StatusCodes.Status200OK)]
@@ -40,6 +47,15 @@ namespace UserManager.API.Controllers
             }
         }
 
+        /// <summary>
+        /// Get User
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns>The User by id</returns>
+        /// <response code="200">Returns the user get by id</response>
+        /// <response code="400">Invalid Request</response>
+        /// <response code="404">User not found</response>
+        /// <response code="500">Internal Server Error</response>
         [HttpGet]
         [Route("GetUser")]
         [ProducesResponseType(typeof(UserDTO), StatusCodes.Status200OK)]
@@ -66,6 +82,14 @@ namespace UserManager.API.Controllers
             }
         }
 
+        /// <summary>
+        /// Add User
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns>A newly created User</returns>
+        /// <response code="200">Returns the newly created User</response>
+        /// <response code="400">Invalid Request</response>
+        /// <response code="500">Internal Server Error</response>
         [HttpPost]
         [Route("AddUser")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -89,6 +113,15 @@ namespace UserManager.API.Controllers
             }
         }
 
+        /// <summary>
+        /// Update User
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns>The updated User</returns>
+        /// <response code="200">Returns the updated user</response>
+        /// <response code="400">Invalid Request</response>
+        /// <response code="404">User not found</response>
+        /// <response code="500">Internal Server Error</response>
         [HttpPost]
         [Route("UpdateUser")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -115,6 +148,15 @@ namespace UserManager.API.Controllers
             }
         }
 
+        /// <summary>
+        /// Delete User
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns>The Deleted User</returns>
+        /// <response code="200">Returns the deleted user</response>
+        /// <response code="400">Invalid Request</response>
+        /// <response code="404">User not found</response>
+        /// <response code="500">Internal Server Error</response>
         [HttpPost]
         [Route("DeleteUser")]
         [ProducesResponseType(StatusCodes.Status200OK)]
