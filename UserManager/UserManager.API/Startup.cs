@@ -1,14 +1,17 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using System;
 using System.IO;
 using System.Reflection;
+using System.Text;
 using UserManager.API.Data;
 using UserManager.API.Models.Entities;
 using UserManager.API.Repositories;
@@ -28,6 +31,24 @@ namespace UserManager.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters()
+                    {
+                        ValidateIssuer = true,
+                        ValidIssuer = Configuration["JWT:Issuer"],
+
+                        ValidateAudience = true,
+                        ValidAudience = Configuration["JWT:Audience"],
+
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWT:SecretKey"])),
+
+                        ValidateLifetime = true,
+                    };
+                });
+
             services.AddCors(options =>
             {
                 options.AddPolicy("AllowSpecificOrigin", builder =>
@@ -59,6 +80,7 @@ namespace UserManager.API
             services.AddAutoMapper(typeof(Program).Assembly);
 
             services.AddScoped<IGenericRepository<User>, GenericRepository<User>>();
+            services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IUserService, UserService>();
         }
 
@@ -81,6 +103,7 @@ namespace UserManager.API
             app.UseCors("AllowSpecificOrigin");
 
             app.UseRouting();
+            app.UseAuthentication();
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {

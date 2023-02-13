@@ -20,13 +20,19 @@ namespace UserManager.API.Repositories
 
         public async Task<List<T>> GetAllUsers()
         {
-            return await _dbSet.FromSqlRaw("SELECT * FROM[UserManagerDb].[dbo].[Users] ORDER BY CreatedAt DESC").ToListAsync();
+            return await _dbSet.FromSqlRaw("SELECT * FROM[UserManagement].[dbo].[Users] ORDER BY CreatedAt DESC").ToListAsync();
             //return await _dbSet.AsNoTracking().ToListAsync();
         }
 
         public async Task<T> GetUser(Guid id)
         {
             return await _dbSet.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        public async Task<T> GetUserByAttribute(string name, string value)
+        {
+            //return await _dbSet.AsNoTracking().FirstOrDefaultAsync(x => x. == value);
+            return await _dbSet.FromSqlRaw($"SELECT * FROM[UserManagement].[dbo].[Users] WHERE {name}='{value}'").FirstOrDefaultAsync();
         }
 
         public async Task<T> AddUser(T entity)

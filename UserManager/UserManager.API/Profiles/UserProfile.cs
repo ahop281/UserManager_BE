@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using UserManager.API.Models.DTO;
 using UserManager.API.Models.Entities;
+using UserManager.API.Models.Request;
+using UserManager.API.Models.Response;
 
 namespace UserManager_BE.Profiles
 {
@@ -12,6 +14,9 @@ namespace UserManager_BE.Profiles
                 .ReverseMap();
             CreateMap<AddUserRequest, User>();
             CreateMap<UpdateUserRequest, User>();
+
+            CreateMap<SignUpRequest, User>();
+            CreateMap<User, SignUpResponse>();
         }
     }
 }

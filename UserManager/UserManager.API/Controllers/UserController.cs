@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -32,6 +33,7 @@ namespace UserManager.API.Controllers
         /// <response code="500">Internal Server Error</response>   
         [HttpGet]
         [Route("GetAllUsers")]
+        [Authorize]
         [ProducesResponseType(typeof(List<UserDTO>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetAllUsers()
@@ -58,6 +60,7 @@ namespace UserManager.API.Controllers
         /// <response code="500">Internal Server Error</response>
         [HttpGet]
         [Route("GetUser")]
+        [Authorize]
         [ProducesResponseType(typeof(UserDTO), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

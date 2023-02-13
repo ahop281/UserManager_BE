@@ -9,6 +9,7 @@ namespace UserManager.API.Repositories
     {
         public Task<List<T>> GetAllUsers();
         public Task<T> GetUser(Guid id);
+        public Task<T> GetUserByAttribute(string name, string value);
         public Task<T> AddUser(T entity);
         public Task<T> UpdateUser(T entity);
         public Task<T> DeleteUser(T entity);
